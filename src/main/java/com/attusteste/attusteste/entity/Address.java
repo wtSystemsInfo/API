@@ -3,6 +3,7 @@ package com.attusteste.attusteste.entity;
 
 import com.attusteste.attusteste.DTO.AddressRequestDTO;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,8 +39,8 @@ public class Address {
     private String uf;
     private boolean principal;
     
-    @ManyToOne
-     @JoinColumn(name="person_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="person_id")
     private Person person;
     
     
