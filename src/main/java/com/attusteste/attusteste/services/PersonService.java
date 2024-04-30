@@ -6,6 +6,7 @@ import com.attusteste.attusteste.DTO.PersonResponseDTO;
 import com.attusteste.attusteste.entity.Person;
 import com.attusteste.attusteste.repository.PersonRepository;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
@@ -16,14 +17,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class PersonService {
     
+    @Autowired
     private PersonRepository repository;
     
-    public PersonService(PersonRepository repository){
-        this.repository = repository;
+    
+    public Person findPersonById(Long id) throws Exception{
+        return repository.findPersonById(id).orElseThrow(() -> new Exception("Pessoa não encontrada!"));
     }
     
     
-    public List<PersonResponseDTO> createPerson(PersonRequestDTO data){
+    public List<PersonResponseDTO> savePerson(PersonRequestDTO data){
         Person personData = new Person(data);
         repository.save(personData);
         return listAll();
@@ -41,5 +44,5 @@ public class PersonService {
         repository.save(personData);
         return listAll();
     }
-    
+ 
 }

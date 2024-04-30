@@ -1,15 +1,19 @@
 
 package com.attusteste.attusteste.entity;
 
+import com.attusteste.attusteste.DTO.AddressRequestDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
@@ -18,6 +22,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "address")
 @Entity(name = "address")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -32,5 +37,20 @@ public class Address {
     private String cidade;
     private String uf;
     private boolean principal;
+    
+    @ManyToOne
+     @JoinColumn(name="person_id")
+    private Person person;
+    
+    
+    public Address(AddressRequestDTO data, Person person){
+        this.logradouro = data.logradouro();
+        this.cep = data.cep();
+        this.numero = data.numero();
+        this.cidade = data.cidade();
+        this.uf = data.uf();
+        this.principal = data.principal();
+        this.person = person;
+    }
     
 }
