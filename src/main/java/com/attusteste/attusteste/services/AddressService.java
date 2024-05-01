@@ -20,7 +20,7 @@ public class AddressService {
     private AddressRepository repository;
     
     
-    public void saveAddress(AddressRequestDTO address, Person person) throws Exception {
+    public Address saveAddress(AddressRequestDTO address, Person person) throws Exception {
         
         
         if(!noMainAddress(person, address)){
@@ -42,6 +42,7 @@ public class AddressService {
         }
         
         repository.save(newAddress);
+        return newAddress;
     }
     
     
@@ -55,16 +56,15 @@ public class AddressService {
         return addressList;       
     }
     
-    public void updateAddress(Long idAddress, AddressRequestDTO newAddress, Person person) throws Exception {
+    public Address updateAddress(Long idAddress, AddressRequestDTO newAddress) throws Exception {
         Address actualAddress = repository.findAddressById(idAddress).orElseThrow(() -> new Exception("Endereço não encontrado!"));
-        
+                
         actualAddress.setLogradouro(newAddress.logradouro());
         actualAddress.setCep(newAddress.cep());
         actualAddress.setNumero(newAddress.numero());
         actualAddress.setCidade(newAddress.cidade());
         actualAddress.setUf(newAddress.uf());
         actualAddress.setPrincipal(newAddress.principal());
-        actualAddress.setPerson(person);
         
         
         if(!validateAddress(actualAddress)){
@@ -72,6 +72,22 @@ public class AddressService {
         }
         
         repository.save(actualAddress);
+        
+        return actualAddress;
+    }
+    
+    
+    public List<AddressResponseDTO> updateMainAddress(Long idAddressOld, Long idAddressNew) throws Exception {
+        Address oldAddress = repository.findAddressById(idAddressOld).orElseThrow(() -> new Exception("Endereço não encontrado!"));
+        Address newAddress = repository.findAddressById(idAddressNew).orElseThrow(() -> new Exception("Endereço não encontrado!")); 
+        Long idPerson = oldAddress.getPerson().getId();
+        oldAddress.setPrincipal(false);
+        newAddress.setPrincipal(true);
+        
+        repository.save(oldAddress);
+        repository.save(newAddress);
+        
+        return findAllAddressByPerson(idPerson);
     }
     
     

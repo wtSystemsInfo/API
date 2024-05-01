@@ -2,6 +2,7 @@
 package com.attusteste.attusteste.entity;
 
 import com.attusteste.attusteste.DTO.AddressRequestDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -41,6 +42,7 @@ public class Address {
     
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="person_id")
+    @JsonIgnore
     private Person person;
     
     

@@ -30,6 +30,9 @@ public class PersonService {
     
     public Person savePerson(PersonRequestDTO data) throws Exception{
         
+        if(!validaDadosPerson(data)){
+            throw new Exception("Existem campos em branco! Preencha corretamente todos os campos!" );
+        }
         String nomeAtual = data.nome();
         LocalDate nascimentoAtual = data.nascimento();
         
@@ -51,6 +54,11 @@ public class PersonService {
     
     
     public Person updatePerson(Long personId, PersonRequestDTO data) throws Exception {         
+        
+        if(!validaDadosPerson(data)){
+            throw new Exception("Existem campos em branco! Preencha corretamente todos os campos!" );
+        }
+        
         Person newPerson = findPersonById(personId);
         newPerson.setNome(data.nome());
         newPerson.setNascimento(data.nascimento());        
@@ -61,6 +69,14 @@ public class PersonService {
     public Long findPersonIdByNameAndBirthday(String nome, LocalDate nascimento) throws Exception {
         Optional<Person> personOptional = repository.findByNomeAndNascimento(nome, nascimento);
         return personOptional.map(Person::getId).orElse(null);
+    }
+    
+    
+    public boolean validaDadosPerson(PersonRequestDTO person){
+        if((person.nome().isBlank() || person.nome() == null ) || (person.nascimento() == null )){
+            return false;
+        }
+        return true;
     }
  
 }

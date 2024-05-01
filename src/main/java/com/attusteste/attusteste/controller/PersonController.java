@@ -60,14 +60,27 @@ public class PersonController {
     }
     
     
+    @GetMapping("/personsById")
+    public ResponseEntity<Person> getPersonById (@RequestParam("id") Long idPerson) {
+        try {
+            Person person = service.findPersonById(idPerson);
+            return new ResponseEntity<>(person, HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+    
+    
     @PutMapping("{id}")
     public ResponseEntity<Person> updatePerson(@PathVariable Long id, @RequestBody PersonRequestDTO data) {
-    try {
-        Person updatedPerson = service.updatePerson(id, data);
-        return new ResponseEntity<>(updatedPerson, HttpStatus.OK);
-    } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        try {
+            Person updatedPerson = service.updatePerson(id, data);
+            return new ResponseEntity<>(updatedPerson, HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
+    
 }
         
-}
+
