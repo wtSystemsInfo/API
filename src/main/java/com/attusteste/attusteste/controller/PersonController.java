@@ -31,15 +31,11 @@ public class PersonController {
     private PersonService service;
     
     @PostMapping
-    public ResponseEntity<Person> savePerson(@RequestBody  PersonRequestDTO person){
-        
-        try{
-            Person newPerson = service.savePerson(person);
-            return new ResponseEntity<>(newPerson, HttpStatus.CREATED);
-        }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-        
+    public ResponseEntity<Person> savePerson(@RequestBody  PersonRequestDTO person) throws Exception{
+
+        Person newPerson = service.savePerson(person);
+        return new ResponseEntity<>(newPerson, HttpStatus.CREATED);
+
     } 
     
     
@@ -50,35 +46,24 @@ public class PersonController {
     } 
     
     @GetMapping("/id")
-    public ResponseEntity<Long> getPersonId (@RequestParam("nome") String nome, @RequestParam("nascimento") LocalDate nascimento) {
-        try {
-            Long personId = service.findPersonIdByNameAndBirthday(nome, nascimento);
-            return ResponseEntity.ok(personId);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+    public ResponseEntity<Long> getPersonId (@RequestParam("nome") String nome, @RequestParam("nascimento") LocalDate nascimento) throws Exception {
+        Long personId = service.findPersonIdByNameAndBirthday(nome, nascimento);
+        return ResponseEntity.ok(personId);
     }
     
     
     @GetMapping("/personsById")
-    public ResponseEntity<Person> getPersonById (@RequestParam("id") Long idPerson) {
-        try {
-            Person person = service.findPersonById(idPerson);
-            return new ResponseEntity<>(person, HttpStatus.OK);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+    public ResponseEntity<Person> getPersonById (@RequestParam("id") Long idPerson) throws Exception {
+        Person person = service.findPersonById(idPerson);
+        return new ResponseEntity<>(person, HttpStatus.OK);
+    
     }
     
     
     @PutMapping("{id}")
-    public ResponseEntity<Person> updatePerson(@PathVariable Long id, @RequestBody PersonRequestDTO data) {
-        try {
-            Person updatedPerson = service.updatePerson(id, data);
-            return new ResponseEntity<>(updatedPerson, HttpStatus.OK);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public ResponseEntity<Person> updatePerson(@PathVariable Long id, @RequestBody PersonRequestDTO data) throws Exception{
+        Person updatedPerson = service.updatePerson(id, data);
+        return new ResponseEntity<>(updatedPerson, HttpStatus.OK);
     }
     
 }

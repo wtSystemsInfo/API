@@ -21,8 +21,8 @@ public class PersonService {
     
     @Autowired
     private PersonRepository repository;
-    
-    
+
+
     public Person findPersonById(Long id) throws Exception{
         return repository.findPersonById(id).orElseThrow(() -> new Exception("Pessoa não encontrada!"));
     }

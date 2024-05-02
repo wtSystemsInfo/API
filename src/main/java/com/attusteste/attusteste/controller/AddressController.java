@@ -33,14 +33,10 @@ public class AddressController {
     @Autowired PersonService servicePerson;
     
     @PostMapping
-     public ResponseEntity<Address> savePerson(@RequestBody AddressRequestDTO addressRequestDTO, @RequestParam Long personId) {
-         try {
-            Person personAddress = servicePerson.findPersonById(personId);
-            Address newAddress = service.saveAddress(addressRequestDTO, personAddress);
-            return ResponseEntity.status(HttpStatus.CREATED).body(newAddress);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+     public ResponseEntity<Address> savePerson(@RequestBody AddressRequestDTO addressRequestDTO, @RequestParam Long personId) throws Exception{
+        Person personAddress = servicePerson.findPersonById(personId);
+        Address newAddress = service.saveAddress(addressRequestDTO, personAddress);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newAddress);
      }
      
      
@@ -58,22 +54,14 @@ public class AddressController {
     }
     
     @PutMapping("{id}")
-    public ResponseEntity<Address> updateAddress(@PathVariable Long id, @RequestBody AddressRequestDTO data) {
-        try {
-            Address updatedAddress = service.updateAddress(id, data);
-            return new ResponseEntity<>(updatedAddress, HttpStatus.OK);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public ResponseEntity<Address> updateAddress(@PathVariable Long id, @RequestBody AddressRequestDTO data) throws Exception{
+        Address updatedAddress = service.updateAddress(id, data);
+        return new ResponseEntity<>(updatedAddress, HttpStatus.OK);
     }
     
     @PutMapping("/changeMain/{idOld}")
-    public  ResponseEntity<List<AddressResponseDTO>> updateMainAddress(@PathVariable Long idOld, @RequestParam("idNew") Long idNew) {
-        try {
-            List<AddressResponseDTO> listAddress = service.updateMainAddress(idOld, idNew);
-            return new ResponseEntity<>(listAddress, HttpStatus.OK);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }        
+    public  ResponseEntity<List<AddressResponseDTO>> updateMainAddress(@PathVariable Long idOld, @RequestParam("idNew") Long idNew) throws Exception {
+        List<AddressResponseDTO> listAddress = service.updateMainAddress(idOld, idNew);
+        return new ResponseEntity<>(listAddress, HttpStatus.OK);        
     }
 }
