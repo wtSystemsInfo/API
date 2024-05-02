@@ -81,6 +81,12 @@ public class AddressService {
         Address oldAddress = repository.findAddressById(idAddressOld).orElseThrow(() -> new Exception("Endereço não encontrado!"));
         Address newAddress = repository.findAddressById(idAddressNew).orElseThrow(() -> new Exception("Endereço não encontrado!")); 
         Long idPerson = oldAddress.getPerson().getId();
+        
+        if (!oldAddress.getPerson().equals(newAddress.getPerson())) {
+            throw new Exception("O novo endereço não pertence à mesma pessoa do endereço antigo!");
+        }
+        
+        
         oldAddress.setPrincipal(false);
         newAddress.setPrincipal(true);
         
