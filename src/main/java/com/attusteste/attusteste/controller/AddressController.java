@@ -33,7 +33,7 @@ public class AddressController {
     @Autowired PersonService servicePerson;
     
     @PostMapping
-     public ResponseEntity<Address> savePerson(@RequestBody AddressRequestDTO addressRequestDTO, @RequestParam Long personId) throws Exception{
+     public ResponseEntity<Address> saveAddress(@RequestBody AddressRequestDTO addressRequestDTO, @RequestParam Long personId) throws Exception{
         Person personAddress = servicePerson.findPersonById(personId);
         Address newAddress = service.saveAddress(addressRequestDTO, personAddress);
         return ResponseEntity.status(HttpStatus.CREATED).body(newAddress);
@@ -41,7 +41,7 @@ public class AddressController {
      
      
     @GetMapping
-    public ResponseEntity<List<AddressResponseDTO>> getAllPersons(){
+    public ResponseEntity<List<AddressResponseDTO>> getAllAddress(){
         List<AddressResponseDTO> listAddress =  service.listAll();
         return new ResponseEntity<>(listAddress, HttpStatus.OK);
     } 
