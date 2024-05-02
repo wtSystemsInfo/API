@@ -4,7 +4,6 @@ import com.attusteste.attusteste.DTO.AddressRequestDTO;
 import com.attusteste.attusteste.entity.Address;
 import com.attusteste.attusteste.entity.Person;
 import com.attusteste.attusteste.repository.AddressRepository;
-import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
